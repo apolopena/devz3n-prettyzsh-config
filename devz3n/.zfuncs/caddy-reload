@@ -1,0 +1,6 @@
+# Graceful reload of caddy configuration (Caddyfile)
+# Assumes caddy is being run in a docker container with the name: caddy
+caddy_id=$(sudo docker ps | grep caddy | awk '{print $1;}')
+sudo docker exec -w /etc/caddy "$caddy_id" caddy reload
+[[ $? -ne 0 ]] && echo "Could not reload caddy instance $caddy_id" && return 1
+echo "Success, caddy instance $caddy_id was reloaded."
